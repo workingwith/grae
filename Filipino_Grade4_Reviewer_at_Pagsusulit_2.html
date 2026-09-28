@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filipino Grade 4 — Reviewer at Pagsusulit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF3E2;
+    --paper-line:#e7dcc2;
+    --board:#2F4A3E;
+    --board-light:#3F6152;
+    --board-dark:#22362D;
+    --marigold:#EFA53B;
+    --marigold-dark:#C9821F;
+    --banig:#B4453A;
+    --leaf:#5E8A4F;
+    --ink:#2B2118;
+    --ink-soft:#5b5040;
+    --chalk:#FDFBF3;
+    --card:#FFFDF6;
+    --correct-bg:#e6f0e0;
+    --correct-line:#5E8A4F;
+    --incorrect-bg:#fbe7e4;
+    --incorrect-line:#B4453A;
+    --shadow: 0 6px 0 rgba(43,33,24,0.08);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(43,33,24,0.05) 1px, transparent 0);
+    background-size: 22px 22px;
+    color:var(--ink);
+    font-family:'Nunito', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+  }
+  h1,h2,h3,h4{
+    font-family:'Baloo 2', cursive;
+    margin:0 0 .3em 0;
+    color:var(--board);
+    line-height:1.2;
+  }
+  p{margin:0 0 .8em 0;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 18px 60px;}
+  .en{color:var(--ink-soft);font-style:italic;font-weight:600;}
+  .small-en{font-size:0.88em;color:var(--ink-soft);font-style:italic;}
+
+  /* ---------- Header / cover ---------- */
+  .cover{
+    background:var(--board);
+    background-image: linear-gradient(180deg, var(--board) 0%, var(--board-dark) 100%);
+    color:var(--chalk);
+    padding:38px 18px 54px;
+    position:relative;
+    overflow:hidden;
+  }
+  .bunting{
+    display:flex; justify-content:center; gap:10px; margin-bottom:22px; flex-wrap:wrap;
+  }
+  .bunting span{
+    width:26px;height:34px;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    display:inline-block;
+  }
+  .bunting span:nth-child(5n+1){background:var(--marigold);}
+  .bunting span:nth-child(5n+2){background:var(--banig);}
+  .bunting span:nth-child(5n+3){background:var(--chalk);}
+  .bunting span:nth-child(5n+4){background:var(--leaf);}
+  .bunting span:nth-child(5n+5){background:var(--marigold-dark);}
+
+  .cover-inner{max-width:820px;margin:0 auto;text-align:center;}
+  .cover h1{
+    color:var(--chalk);
+    font-size:2.3rem;
+    margin-bottom:.15em;
+  }
+  .cover .subtitle{
+    color:var(--marigold);
+    font-weight:800;
+    font-family:'Baloo 2', cursive;
+    font-size:1.05rem;
+    margin-bottom:1em;
+  }
+  .cover p{color:#EDEAD9; max-width:640px; margin-left:auto; margin-right:auto;}
+
+  .name-bar{
+    margin-top:24px;
+    background:var(--chalk);
+    color:var(--ink);
+    border-radius:14px;
+    padding:14px 18px;
+    max-width:520px;
+    margin-left:auto;margin-right:auto;
+    box-shadow: var(--shadow);
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center;
+  }
+  .name-bar label{font-family:'Baloo 2',cursive; font-weight:700; color:var(--board); font-size:0.98rem;}
+  .name-bar input{
+    flex:1; min-width:180px;
+    font-family:'Nunito',sans-serif; font-size:1rem;
+    padding:8px 10px; border:2px solid var(--paper-line); border-radius:8px;
+    background:#fffefb;
+  }
+  .name-bar input:focus{outline:3px solid var(--marigold); outline-offset:1px; border-color:var(--marigold-dark);}
+
+  /* ---------- Tabs (folder-tab look) ---------- */
+  .tabbar{
+    display:flex; justify-content:center; gap:6px;
+    margin-top:-26px; position:relative; z-index:2; padding:0 12px;
+  }
+  .tabbtn{
+    font-family:'Baloo 2', cursive;
+    font-size:1.05rem;
+    font-weight:700;
+    padding:14px 26px 12px;
+    background:var(--paper-line);
+    color:var(--ink-soft);
+    border:none;
+    cursor:pointer;
+    border-radius:14px 14px 0 0;
+    transform: perspective(50px) rotateX(2deg);
+    box-shadow: 0 -2px 0 rgba(0,0,0,0.05) inset;
+  }
+  .tabbtn.active{
+    background:var(--card);
+    color:var(--board);
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
+  }
+  .tabbtn:not(.active):hover{background:#efe4c8;}
+
+  .tab-content{display:none; background:var(--card); padding:28px 22px 10px; border-radius:0 0 18px 18px; box-shadow:var(--shadow);}
+  .tab-content.active{display:block;}
+  .content-shell{padding-top:0;}
+
+  /* ---------- Table of contents ---------- */
+  .toc{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:10px; margin:18px 0 30px;
+    padding:0; list-style:none;
+  }
+  .toc a{
+    display:block; text-decoration:none; color:var(--ink);
+    background:var(--paper); border:2px dashed var(--paper-line);
+    border-radius:12px; padding:10px 14px; font-weight:700;
+    font-family:'Baloo 2',cursive; font-size:0.95rem;
+  }
+  .toc a:hover{border-color:var(--marigold); color:var(--marigold-dark);}
+
+  /* ---------- Lesson card ---------- */
+  .lesson{
+    margin-bottom:34px;
+    border:2px solid var(--paper-line);
+    border-radius:16px;
+    overflow:hidden;
+    background:var(--card);
+    scroll-margin-top:16px;
+  }
+  .lesson-head{
+    background:var(--board);
+    color:var(--chalk);
+    padding:16px 20px;
+    position:relative;
+  }
+  .lesson-head h2{color:var(--chalk); font-size:1.3rem; margin-bottom:2px;}
+  .lesson-head .en{color:#CFE3D6; display:block; font-size:0.92rem;}
+  .badge{
+    display:inline-block; margin-top:8px;
+    font-family:'Baloo 2',cursive; font-size:0.78rem; font-weight:700;
+    padding:5px 12px; border-radius:20px;
+  }
+  .badge.official{background:var(--leaf); color:#fff; border:2px solid #fff3;}
+  .badge.standard{background:transparent; color:var(--marigold); border:2px dashed var(--marigold);}
+
+  .lesson-body{padding:18px 22px 22px;}
+  .lesson-body > p:first-child{margin-top:0;}
+
+  table.terms{width:100%; border-collapse:collapse; margin:14px 0 18px; font-size:0.95rem;}
+  table.terms th, table.terms td{border:1px solid var(--paper-line); padding:8px 10px; text-align:left; vertical-align:top;}
+  table.terms th{background:var(--paper); font-family:'Baloo 2',cursive; color:var(--board);}
+  table.terms tr:nth-child(even) td{background:#fffaf0;}
+
+  .examples{
+    background:var(--paper);
+    border-left:5px solid var(--marigold);
+    border-radius:0 10px 10px 0;
+    padding:10px 14px;
+    margin:12px 0;
+    font-size:0.96rem;
+  }
+  .examples strong{color:var(--board);}
+
+  /* ---------- Quiz ---------- */
+  .quiz-intro{
+    background:var(--paper); border:2px dashed var(--paper-line); border-radius:14px;
+    padding:14px 18px; margin-bottom:24px;
+  }
+  .qgroup-label{
+    font-family:'Baloo 2',cursive; color:var(--board);
+    font-size:1.05rem; margin:22px 0 10px;
+    border-bottom:3px solid var(--marigold); display:inline-block; padding-bottom:2px;
+  }
+  .question{
+    background: repeating-linear-gradient(var(--card), var(--card) 27px, var(--paper-line) 28px);
+    border:1px solid var(--paper-line);
+    border-radius:10px;
+    padding:14px 16px 12px;
+    margin-bottom:14px;
+  }
+  .question .qtext{font-weight:700; margin-bottom:8px;}
+  .choice{
+    display:flex; align-items:flex-start; gap:8px;
+    padding:6px 8px; border-radius:8px; margin-bottom:4px; cursor:pointer;
+  }
+  .choice:hover{background:rgba(239,165,59,0.14);}
+  .choice input{margin-top:4px;}
+  .choice.correct{background:var(--correct-bg); outline:2px solid var(--correct-line);}
+  .choice.incorrect{background:var(--incorrect-bg); outline:2px solid var(--incorrect-line);}
+  .fb-tag{font-family:'Baloo 2',cursive; font-size:0.82rem; font-weight:700; margin-left:6px;}
+  .fb-tag.correct{color:var(--leaf);}
+  .fb-tag.incorrect{color:var(--banig);}
+  .explain{display:none; margin-top:8px; font-size:0.9rem; color:var(--ink-soft); background:#fff; border-left:4px solid var(--marigold); padding:6px 10px; border-radius:0 8px 8px 0;}
+
+  /* ---------- Buttons ---------- */
+  .btnrow{display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin:26px 0 8px;}
+  .btn{
+    font-family:'Baloo 2',cursive; font-weight:700; font-size:1.05rem;
+    padding:13px 28px; border-radius:30px; border:none; cursor:pointer;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.18);
+  }
+  .btn.primary{background:var(--marigold); color:#3a2600;}
+  .btn.primary:hover{background:var(--marigold-dark); color:#fff;}
+  .btn.ghost{background:transparent; color:var(--board); border:2px solid var(--board);}
+  .btn.ghost:hover{background:var(--board); color:#fff;}
+  .btn:active{transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.18);}
+
+  /* ---------- Score summary ---------- */
+  .score-panel{
+    display:none;
+    background:var(--board); color:var(--chalk);
+    border-radius:16px; padding:22px 24px; margin-bottom:26px;
+    text-align:center;
+  }
+  .score-panel.show{display:block;}
+  .score-panel h3{color:var(--marigold); font-size:1.5rem;}
+  .score-panel .big{font-size:2.4rem; font-family:'Baloo 2',cursive; color:#fff;}
+  .score-table{width:100%; margin-top:14px; border-collapse:collapse; font-size:0.92rem;}
+  .score-table th, .score-table td{padding:6px 8px; border-bottom:1px solid rgba(255,255,255,0.2); text-align:left;}
+  .score-table th{color:var(--marigold); font-family:'Baloo 2',cursive; font-weight:700;}
+
+  .lesson-quiz-title{
+    background:var(--board); color:var(--chalk);
+    padding:12px 18px; border-radius:14px 14px 0 0; margin-top:30px;
+  }
+  .lesson-quiz-title h3{color:var(--chalk); margin:0; font-size:1.15rem;}
+  .lesson-quiz-title .en{color:#CFE3D6; font-size:0.85rem;}
+  .lesson-quiz-body{border:2px solid var(--board); border-top:none; border-radius:0 0 14px 14px; padding:18px 18px 6px; margin-bottom:10px;}
+
+  footer{text-align:center; color:var(--ink-soft); font-size:0.85rem; padding:26px 10px 10px;}
+
+  @media (max-width:640px){
+    .cover h1{font-size:1.7rem;}
+    .tabbtn{padding:11px 16px 10px; font-size:0.92rem;}
+    .lesson-body{padding:14px;}
+  }
+
+  /* ---------- Print ---------- */
+  @media print{
+    body{background:#fff;}
+    .cover{background:#fff !important; color:#000 !important; padding:10px 0;}
+    .cover .subtitle, .cover p, .bunting{display:none;}
+    .cover h1{color:#000;}
+    .name-bar{background:#fff; box-shadow:none; border:1px solid #999;}
+    .tabbar, .btnrow, .no-print{display:none !important;}
+    .tab-content{display:block !important; box-shadow:none; padding:6px 0;}
+    .lesson, .question, .lesson-quiz-body{page-break-inside:avoid; box-shadow:none;}
+    .question{background:#fff;}
+    .score-panel{color:#000; background:#fff; border:1px solid #000;}
+    .score-panel h3{color:#000;}
+    .score-panel .big{color:#000;}
+    a{color:#000; text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="bunting">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="cover-inner">
+    <h1>Filipino Reviewer at Pagsusulit</h1>
+    <div class="subtitle">Grade 4 · Ikaapat na Baitang</div>
+    <p>Basahin muna ang Reviewer, pagkatapos ay subukan ang Pagsusulit. Bawat salita ay may salin sa Ingles para madaling maintindihan.
+       <span class="small-en">(Read the Reviewer first, then try the Quiz. Every term includes an English translation to help you understand.)</span></p>
+    <div class="name-bar">
+      <label for="studentName">Pangalan ng Mag-aaral / Student's Name:</label>
+      <input type="text" id="studentName" placeholder="Isulat dito...">
+    </div>
+  </div>
+</div>
+
+<div class="tabbar">
+  <button class="tabbtn active" id="tab-btn-reviewer" onclick="showTab('reviewer')">📖 Reviewer</button>
+  <button class="tabbtn" id="tab-btn-quiz" onclick="showTab('quiz')">📝 Kunin ang Pagsusulit</button>
+</div>
+
+<div class="wrap">
+  <div id="tab-reviewer" class="tab-content active">
+    <div class="content-shell" id="reviewer-content"></div>
+  </div>
+
+  <div id="tab-quiz" class="tab-content">
+    <div class="content-shell">
+      <div class="quiz-intro">
+        <p style="margin:0"><strong>Panuto:</strong> Sagutan ang bawat aralin — may Multiple Choice at Tama o Mali. Pagkatapos sagutan ang LAHAT, pindutin ang "Suriin ang mga Sagot" sa pinakababa upang makita ang iyong marka at ang mga tamang sagot.
+        <span class="small-en">(Instructions: Answer each lesson — Multiple Choice and True or False. After answering ALL of them, press "Check My Answers" at the very bottom to see your score and the correct answers.)</span></p>
+      </div>
+      <div id="score-panel" class="score-panel"></div>
+      <div id="quiz-content"></div>
+      <div class="btnrow no-print">
+        <button class="btn primary" onclick="checkAnswers()">✅ Suriin ang mga Sagot (Check My Answers)</button>
+        <button class="btn ghost" onclick="window.print()">🖨️ I-print</button>
+        <button class="btn ghost" onclick="resetQuiz()">🔄 Simulan Muli</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>Ginawa para sa personal na pag-aaral sa bahay. · Made for personal home study use.</footer>
+
+<script>
+/* =========================================================
+   LESSON DATA
+   mc / tf: [question or statement, [choices], correctIndex, explanation]
+   (True/False items use choices ["Tama (True)","Mali (False)"])
+   ========================================================= */
+const LESSONS = [
+{
+  id:1,
+  fil:"Aralin 1: Pandinig — Tunog at Tinig",
+  en:"Lesson 1: Listening — Sound and Voice",
+  official:false,
+  intro:"Ang <strong>tunog</strong> ay anumang naririnig ng tainga — galing man ito sa tao, hayop, o bagay/kalikasan (hal. ulan, kulog, kampana). Ang <strong>tinig</strong> naman ay tunog na partikular na nagmumula sa bibig ng tao o hayop (hal. kanta, tahol, huni). Mahalagang matutong makinig nang mabuti (pandinig) upang makilala at maunawaan ang mga tunog sa ating paligid.",
+  introEn:"Sound (tunog) is anything the ear hears — whether from a person, animal, or object/nature (e.g., rain, thunder, a bell). Voice (tinig) specifically refers to sound coming from the mouth of a person or animal (e.g., singing, barking, chirping). It's important to learn to listen carefully (pandinig) to recognize and understand the sounds around us.",
+  terms:[
+    ["Tunog","Sound","Anumang naririnig; hindi lang mula sa tao. Hal. ulan, kulog, kampana, sasakyan"],
+    ["Tinig","Voice","Tunog na nagmumula sa bibig ng tao o hayop. Hal. kanta, iyak, tahol, huni"],
+    ["Pandinig","Listening","Kakayahang makinig at maunawaan ang mga tunog sa paligid"]
+  ],
+  mc:[
+    ["Ano ang tawag sa anumang naririnig, ito man ay mula sa tao, hayop, o bagay?", ["Tinig","Tunog","Bigkas","Pantig"], 1, "Ang tunog ay pangkalahatang termino para sa anumang naririnig."],
+    ["Ano ang tawag sa tunog na nagmumula sa bibig ng tao o hayop?", ["Tunog","Tinig","Ingay","Alingawngaw"], 1, "Ang tinig ay tunog na partikular na galing sa bibig."],
+    ["Alin sa mga sumusunod ang halimbawa ng tunog mula sa kalikasan (hindi tinig)?", ["kulog","kanta ng tao","tahol ng aso","huni ng ibon"], 0, "Ang kulog ay tunog na hindi nagmumula sa bibig ng tao o hayop."],
+    ["Alin sa mga sumusunod ang halimbawa ng tinig ng hayop?", ["tugtog ng gitara","tahol ng aso","tunog ng kampana","ingay ng makina"], 1, "Ang tahol ay tinig na galing sa bibig ng aso."],
+    ["Alin sa mga sumusunod ang halimbawa ng tinig ng tao?", ["kanta","kulog","ihip ng hangin","tunog ng kampana"], 0, "Ang kanta ay tinig na galing sa bibig ng tao."],
+    ["Ang tunog ng ulan sa bubong ay halimbawa ng:", ["Tinig","Tunog na hindi mula sa bibig ng tao o hayop","Bantas","Pantig"], 1, "Hindi ito galing sa bibig, kaya tunog lamang ito, hindi tinig."],
+    ["Bakit mahalagang matutong makinig nang mabuti sa mga tunog sa ating paligid?", ["Para malaman kung saan ito nanggagaling at maunawaan ang kapaligiran","Para gawing malakas ang boses","Para hindi na kailangang magsalita","Walang dahilan"], 0, "Nakakatulong ang mabuting pandinig upang maunawaan ang ating paligid."],
+    ["Ang kakayahang makinig at maunawaan ang mga tunog sa paligid ay tinatawag na:", ["Pagbasa","Pandinig","Panonood","Pagsulat"], 1, "Ito ang pandinig."],
+    ["Alin sa mga sumusunod ang TAMANG pares — tunog at ang pinagmulan nito?", ["tahol - hayop","kanta - bagay","kulog - tao","huni - bagay"], 0, "Ang tahol ay galing sa hayop (aso)."],
+    ["Bakit magkaiba ang tunog at tinig?", ["Dahil magkaiba ang bilang ng letra nila","Dahil ang tinig ay partikular na mula sa bibig ng tao o hayop, samantalang ang tunog ay pangkalahatan","Dahil iba ang baybay nila","Wala silang pagkakaiba"], 1, "Mas partikular ang tinig kaysa sa tunog."]
+  ],
+  tf:[
+    ["Ang tunog ay laging nagmumula sa bibig ng tao.", ["Tama (True)","Mali (False)"], 1, "Mali — ang tunog ay maaaring manggaling sa tao, hayop, o bagay/kalikasan."],
+    ["Ang tinig ay tunog na partikular na nagmumula sa bibig ng tao o hayop.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang kahulugan ng tinig."],
+    ["Ang tunog ng kulog ay halimbawa ng tinig.", ["Tama (True)","Mali (False)"], 1, "Mali — tunog lamang ito dahil hindi ito galing sa bibig ng tao o hayop."],
+    ["Mahalaga ang mabuting pandinig upang maunawaan ang ating paligid.", ["Tama (True)","Mali (False)"], 0, "Tama — nakakatulong ang pandinig upang makilala ang mga tunog sa paligid."],
+    ["Ang tahol ng aso ay hindi maituturing na tinig.", ["Tama (True)","Mali (False)"], 1, "Mali — ang tahol ay tinig dahil galing ito sa bibig ng aso."]
+  ]
+},
+{
+  id:2,
+  fil:"Aralin 2: Pagpapantig",
+  en:"Lesson 2: Syllabication",
+  official:false,
+  intro:"Ang <strong>pantig</strong> ay pinakamaliit na yunit ng tunog sa isang salita, karaniwang may kasamang patinig (a, e, i, o, u). Ang mga salita ay maaaring binubuo ng isa o higit pang pantig, at natututunan nating hatiin ang salita sa mga pantig nito upang mabigkas ito nang wasto.",
+  introEn:"A syllable is the smallest unit of sound in a word, usually containing a vowel (a, e, i, o, u). Words may be made up of one or more syllables, and we learn to divide a word into its syllables to pronounce it correctly.",
+  terms:[
+    ["Pantig","Syllable","Pinakamaliit na yunit ng tunog sa salita; may kasamang patinig"]
+  ],
+  examples:"pu-sa (2 pantig) · gu-ro (2 pantig) · a-so (2 pantig) · ba-li-ta (3 pantig) · pa-a-ra-lan (4 pantig) · ma-ha-la-ga (4 pantig)",
+  mc:[
+    ["Ano ang tawag sa pinakamaliit na yunit ng tunog na binibigkas nang sabay-sabay sa isang salita?", ["Salita","Pantig","Titik","Bantas"], 1, "Ang pantig ang pinakamaliit na yunit ng tunog sa isang salita."],
+    ["Ilang pantig mayroon ang salitang 'pusa'?", ["1","2","3","4"], 1, "pu-sa = 2 pantig."],
+    ["Ilang pantig mayroon ang salitang 'paaralan'?", ["2","3","4","5"], 2, "pa-a-ra-lan = 4 na pantig."],
+    ["Ilang pantig mayroon ang salitang 'guro'?", ["1","2","3","4"], 1, "gu-ro = 2 pantig."],
+    ["Ilang pantig mayroon ang salitang 'balita'?", ["1","2","3","4"], 2, "ba-li-ta = 3 pantig."],
+    ["Ilang pantig mayroon ang salitang 'aso'?", ["1","2","3","4"], 1, "a-so = 2 pantig."],
+    ["Ilang pantig mayroon ang salitang 'sa'?", ["1","2","3","4"], 0, "'sa' ay iisang pantig lamang."],
+    ["Piliin ang wastong paghahati sa pantig ng salitang 'guro'.", ["g-uro","gu-ro","gur-o","guro (hindi hinahati)"], 1, "gu-ro ang tamang paghahati."],
+    ["Piliin ang wastong paghahati sa pantig ng salitang 'mahalaga'.", ["ma-ha-la-ga","mah-a-la-ga","ma-hala-ga","mahalaga (hindi hinahati)"], 0, "ma-ha-la-ga ang tamang paghahati."],
+    ["Bakit mahalaga ang tamang pagpapantig sa pagbasa?", ["Nakakatulong ito sa tamang pagbigkas ng salita","Pinapahaba nito ang salita","Binabago nito ang kahulugan ng salita","Wala itong silbi"], 0, "Tumutulong ito sa tamang pagbigkas at pag-unawa."]
+  ],
+  tf:[
+    ["Ang pantig ay may kasamang patinig.", ["Tama (True)","Mali (False)"], 0, "Tama — halos lahat ng pantig ay may kasamang patinig."],
+    ["Ang salitang 'pusa' ay may tatlong pantig.", ["Tama (True)","Mali (False)"], 1, "Mali — dalawang pantig lamang ang 'pusa' (pu-sa)."],
+    ["Ang salitang 'paaralan' ay may apat na pantig.", ["Tama (True)","Mali (False)"], 0, "Tama — pa-a-ra-lan ay apat na pantig."],
+    ["Ang wastong paghahati ng 'balita' ay 'bal-ita'.", ["Tama (True)","Mali (False)"], 1, "Mali — ang tamang paghahati ay ba-li-ta."],
+    ["Nakakatulong ang tamang pagpapantig sa tamang pagbigkas ng salita.", ["Tama (True)","Mali (False)"], 0, "Tama — tumutulong ito upang mabigkas nang wasto ang salita."]
+  ]
+},
+{
+  id:3,
+  fil:"Aralin 3: Baybay, Bigkas, at Kahulugan ng Salita",
+  en:"Lesson 3: Spelling, Pronunciation, and Meaning of Words",
+  official:false,
+  intro:"Ang <strong>baybay</strong> ay ang tamang pagsulat ng mga titik na bumubuo sa isang salita. Ang <strong>bigkas</strong> naman ay ang paraan ng pagsasalita o pagbigkas ng salita. Minsan, nagbabago ang <strong>kahulugan</strong> ng isang salita depende sa kung paano ito binibigkas, kahit magkatulad ang baybay nito.",
+  introEn:"Spelling (baybay) is the correct writing of the letters that make up a word. Pronunciation (bigkas) is the way a word is spoken. Sometimes, a word's meaning (kahulugan) changes depending on how it is pronounced, even when the spelling looks the same.",
+  terms:[
+    ["Baybay","Spelling","Tamang pagsulat ng mga titik ng salita"],
+    ["Bigkas","Pronunciation","Paraan ng pagsasalita o pagbigkas ng salita"],
+    ["Kahulugan","Meaning","Maaaring magbago depende sa bigkas, kahit magkatulad ang baybay. Hal. baka (hayop) — bakâ (\"maaari\")"]
+  ],
+  mc:[
+    ["Ano ang tawag sa tamang pagsulat ng mga titik na bumubuo sa isang salita?", ["Bigkas","Baybay","Kahulugan","Pantig"], 1, "Ang baybay ay ang tamang pagsulat ng salita."],
+    ["Ano ang tawag sa tamang paraan ng pagsasalita o pagbigkas ng isang salita?", ["Baybay","Bigkas","Kahulugan","Pantig"], 1, "Ang bigkas ang tamang paraan ng pagsasalita."],
+    ["Alin sa mga sumusunod ang WASTONG baybay ng salita?", ["paaralan","paaaralan","paaraln","parealan"], 0, "'paaralan' ang wastong baybay."],
+    ["Ang salitang 'buhay' ay maaaring magkaroon ng ibang kahulugan depende sa:", ["Bilang ng titik","Bigkas o diin sa pagbigkas","Kulay ng papel","Haba ng salita"], 1, "Nagbabago ang kahulugan depende sa bigkas."],
+    ["Alin ang pares ng salitang magkatulad ang baybay ngunit nagbabago ang kahulugan depende sa bigkas?", ["baka - bakâ","bata - lola","puno - dahon","araw - buwan"], 0, "Ang 'baka' at 'bakâ' ay magkatulad ang baybay ngunit magkaiba ang kahulugan."],
+    ["Ano ang maaaring mangyari kung mali ang bigkas ng isang salita?", ["Wala itong epekto","Maaaring magbago o hindi maintindihan ang kahulugan nito","Mas gaganda ang tunog","Mapapabilis ang pagbasa"], 1, "Maaaring magdulot ito ng di-pagkakaunawaan sa kahulugan."],
+    ["Ano ang tawag sa kahulugan ng salita batay sa gamit nito sa pangungusap?", ["Baybay","Bigkas","Kahulugan","Pantig"], 2, "Ito ang kahulugan."],
+    ["Bakit mahalaga ang wastong baybay sa pagsulat?", ["Upang maunawaan nang tama ng bumabasa ang ibig sabihin","Upang pahabain ang salita","Upang gawing kumplikado ang pagsulat","Walang dahilan"], 0, "Tumutulong ito sa tamang pagkaunawa ng bumabasa."],
+    ["Bakit mahalagang pag-aralan ang tamang bigkas ng salita?", ["Para maiwasan ang di-pagkakaunawaan sa kahulugan","Para pahabain ang salita","Para gawing mahirap ang pagbasa","Wala itong kabuluhan"], 0, "Iniiwasan ang kalituhan sa kahulugan."],
+    ["Alin ang PINAKAMAHALAGANG dahilan kung bakit dapat maging maingat sa baybay at bigkas ng salita?", ["Para magmukhang matalino","Upang maiwasan ang maling pagkakaunawa sa ibig sabihin ng sinasabi","Para maikli ang usapan","Walang dahilan"], 1, "Tinutulungan nito ang tamang pagkaunawa."]
+  ],
+  tf:[
+    ["Ang baybay ay tumutukoy sa tamang pagsulat ng salita.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang kahulugan ng baybay."],
+    ["Hindi nakaaapekto ang bigkas sa kahulugan ng salita.", ["Tama (True)","Mali (False)"], 1, "Mali — maaaring magbago ang kahulugan depende sa bigkas."],
+    ["Ang 'baka' at 'bakâ' ay magkatulad ang baybay ngunit maaaring magkaiba ang kahulugan depende sa bigkas.", ["Tama (True)","Mali (False)"], 0, "Tama — halimbawa ito ng salitang nagbabago ang kahulugan sa bigkas."],
+    ["Mahalaga ang wastong bigkas upang maunawaan nang tama ang ibig sabihin ng sinasabi.", ["Tama (True)","Mali (False)"], 0, "Tama — iniiwasan nito ang kalituhan."],
+    ["Walang epekto sa pag-unawa kung mali ang bigkas ng salita.", ["Tama (True)","Mali (False)"], 1, "Mali — maaari itong magdulot ng di-pagkakaunawaan."]
+  ]
+},
+{
+  id:4,
+  fil:"Aralin 4: Anyo ng Mga Salita",
+  en:"Lesson 4: Forms of Words",
+  official:true,
+  intro:"May apat na anyo ang salita: <strong>Payak</strong> (salitang-ugat lamang), <strong>Maylapi</strong> (may dagdag na panlapi), <strong>Tambalan</strong> (dalawang salitang magkaiba ang kahulugan na lumilikha ng bagong kahulugan kapag pinagsama), at <strong>Inuulit</strong> (inuulit ang buo o bahagi ng salita).",
+  introEn:"Words have four forms: Payak (simple — the root word only), Maylapi (affixed — an affix is added), Tambalan (compound — two words with different meanings that create a new meaning when joined), and Inuulit (reduplicated — the whole word or part of it is repeated).",
+  terms:[
+    ["Payak","Simple","Salitang-ugat lamang. Hal. baba, bahay, unan, ama, puno, halaman"],
+    ["Maylapi","Affixed","Salitang-ugat + panlapi. Hal. unanan, mag-ama, pinuno, halamanan"],
+    ["Tambalan","Compound","Dalawang salitang magkaiba ang kahulugan na bumubuo ng bagong kahulugan. Hal. bahay-dalanginan, baybay-dagat, balat-kayo, hapag-kainan, buhay-hari, anak-pawis"],
+    ["Inuulit","Reduplicated","Inuulit ang buo o bahagi ng salita. Hal. kanya-kanya, sama-sama, bahay-bahay"]
+  ],
+  mc:[
+    ["Ang salitang tumutukoy lamang sa salitang-ugat ay tinatawag na:", ["Maylapi","Payak","Tambalan","Inuulit"], 1, "Payak — salitang-ugat lamang."],
+    ["Piliin ang halimbawa ng salitang Payak.", ["halamanan","bahay-bahay","bahay","mag-ama"], 2, "'bahay' ay salitang-ugat lamang."],
+    ["Ang salitang dinaragdagan ng panlapi ay tinatawag na:", ["Payak","Maylapi","Tambalan","Inuulit"], 1, "Maylapi — salitang-ugat + panlapi."],
+    ["Piliin ang halimbawa ng salitang Maylapi.", ["puno","halaman","halamanan","baba"], 2, "'halamanan' = halaman + -an."],
+    ["Ang salitang binubuo ng dalawang magkaibang salita na lumilikha ng bagong kahulugan ay tinatawag na:", ["Payak","Maylapi","Tambalan","Inuulit"], 2, "Tambalan — bagong kahulugan sa pagsasama."],
+    ["Piliin ang halimbawa ng salitang Tambalan.", ["unanan","hapag-kainan","puno","pinuno"], 1, "'hapag-kainan' ay tambalang salita."],
+    ["Ang salitang inuulit ang buo o bahagi ng salita ay tinatawag na:", ["Payak","Maylapi","Tambalan","Inuulit"], 3, "Inuulit — pag-uulit ng buo o bahagi ng salita."],
+    ["Piliin ang halimbawa ng salitang Inuulit.", ["bahay-bahay","baybay-dagat","mag-ama","unan"], 0, "'bahay-bahay' ay inuulit na salita."],
+    ["Alin sa apat na anyo ng salita ang binubuo ng 'mag-' + 'ama'?", ["Payak","Maylapi","Tambalan","Inuulit"], 1, "May idinagdag na panlapi na 'mag-', kaya Maylapi ito."],
+    ["Ang salitang 'anak-pawis' ay halimbawa ng:", ["Payak","Maylapi","Tambalan","Inuulit"], 2, "Tambalang salita ito."]
+  ],
+  tf:[
+    ["Ang Payak ay salitang-ugat lamang.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang kahulugan ng Payak."],
+    ["Ang 'halamanan' ay halimbawa ng Payak na salita.", ["Tama (True)","Mali (False)"], 1, "Mali — Maylapi ito (halaman + -an)."],
+    ["Ang Tambalan ay binubuo ng dalawang magkaibang salita na lumilikha ng bagong kahulugan.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang kahulugan ng Tambalan."],
+    ["Ang 'bahay-bahay' ay halimbawa ng Tambalang salita.", ["Tama (True)","Mali (False)"], 1, "Mali — Inuulit ito dahil inuulit lamang ang parehong salita."],
+    ["Apat ang anyo ng salita: Payak, Maylapi, Tambalan, at Inuulit.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang apat na anyo ng salita."]
+  ]
+},
+{
+  id:5,
+  fil:"Aralin 5: Uri ng Pangngalan",
+  en:"Lesson 5: Kinds of Noun",
+  official:true,
+  intro:"Ang <strong>pangngalan</strong> ay bahagi ng pananalita na tumutukoy sa ngalan ng tao, hayop, bagay, lugar, gawain, pangyayari, o kaisipan. May dalawang uri: <strong>Pambalana</strong> (karaniwang ngalan, gamit ang maliit na titik) at <strong>Pantangi</strong> (tiyak na ngalan, gamit ang malaking titik).",
+  introEn:"A noun (pangngalan) is the part of speech that refers to the name of a person, animal, thing, place, action, event, or idea. There are two kinds: Pambalana (common noun, written with a small letter) and Pantangi (proper noun, written with a capital letter).",
+  terms:[
+    ["Pangngalan","Noun","Ngalan ng tao, hayop, bagay, lugar, gawain, pangyayari, o kaisipan"],
+    ["Pambalana","Common noun","Karaniwang ngalan; maliit na titik. Hal. guro, pusa, libro, paaralan, kasal"],
+    ["Pantangi","Proper noun","Tiyak na ngalan; malaking titik. Hal. Andres Bonifacio, Hachiko, Toyota, Luneta Park, Bagong Taon"]
+  ],
+  mc:[
+    ["Ano ang tawag sa bahagi ng pananalita na tumutukoy sa ngalan ng tao, hayop, bagay, lugar, gawain, pangyayari, o kaisipan?", ["Pang-uri","Pangngalan","Pandiwa","Pang-abay"], 1, "Ito ang pangngalan."],
+    ["Ilan ang uri ng pangngalan?", ["2","3","4","5"], 0, "May dalawang uri: Pambalana at Pantangi."],
+    ["Ang pangngalang tumutukoy sa karaniwang ngalan ng tao, bagay, hayop, pook, o pangyayari ay tinatawag na:", ["Pantangi","Pambalana","Pangngalang Kongkreto","Panlalaki"], 1, "Ito ang Pambalana."],
+    ["Paano isinusulat ang mga pangngalang Pambalana?", ["Gamit ang malaking titik","Gamit ang maliit na titik","Gamit ang salungguhit","Gamit ang panipi"], 1, "Gamit ang maliit na titik."],
+    ["Ang pangngalang tumutukoy sa tiyak na pangngalan ay tinatawag na:", ["Pambalana","Pantangi","Walang Kasarian","Di-tiyak"], 1, "Ito ang Pantangi."],
+    ["Paano isinusulat ang mga pangngalang Pantangi?", ["Gamit ang maliit na titik","Gamit ang malaking letra o titik","Gamit ang gitling","Walang pagkakaiba sa Pambalana"], 1, "Gamit ang malaking letra o titik."],
+    ["Piliin ang halimbawa ng pangngalang Pambalana.", ["Luneta Park","guro","Andres Bonifacio","Toyota"], 1, "'guro' ay karaniwang ngalan."],
+    ["Piliin ang halimbawa ng pangngalang Pantangi.", ["paaralan","libro","Hachiko","kasal"], 2, "'Hachiko' ay tiyak na ngalan (pangalan ng aso)."],
+    ["Ang salitang 'Pilipinas' ay halimbawa ng:", ["Pambalana","Pantangi","Walang kasarian","Di-tiyak"], 1, "Pantangi — tiyak na pangalan ng bansa."],
+    ["Ang salitang 'bansa' ay halimbawa ng:", ["Pantangi","Pambalana","Panlalaki","Pambabae"], 1, "Pambalana — karaniwang ngalan."]
+  ],
+  tf:[
+    ["Ang Pangngalan ay tumutukoy sa ngalan ng tao, hayop, bagay, lugar, gawain, pangyayari, o kaisipan.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang kahulugan ng pangngalan."],
+    ["Ang Pambalana ay isinusulat gamit ang malaking titik.", ["Tama (True)","Mali (False)"], 1, "Mali — gamit ang maliit na titik ang Pambalana."],
+    ["Ang 'Jose Rizal' ay halimbawa ng Pantangi.", ["Tama (True)","Mali (False)"], 0, "Tama — tiyak na pangalan ito."],
+    ["Ang 'bansa' ay halimbawa ng Pantangi.", ["Tama (True)","Mali (False)"], 1, "Mali — Pambalana ito, karaniwang ngalan."],
+    ["Dalawa ang uri ng pangngalan: Pambalana at Pantangi.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang dalawang uri."]
+  ]
+},
+{
+  id:6,
+  fil:"Aralin 6: Kasarian ng Pangngalan",
+  en:"Lesson 6: Gender of Noun",
+  official:true,
+  intro:"Ang <strong>Kasarian</strong> ay nagpapakita kung ang pangngalan ay Panlalaki, Pambabae, Di-tiyak, o Walang Kasarian.",
+  introEn:"Gender (Kasarian) shows whether a noun is Masculine, Feminine, Common, or Neuter.",
+  terms:[
+    ["Panlalaki","Masculine","Pantawag sa lalaki. Hal. tatay, kuya, Ginoo, hari, lolo"],
+    ["Pambabae","Feminine","Pantawag sa babae. Hal. nanay, ate, Ginang, reyna, lola"],
+    ["Di-tiyak","Common (either)","Maaaring pambabae o panlalaki. Hal. pulis, dentista, doktor, guro, presidente"],
+    ["Walang Kasarian","Neuter","Tumutukoy sa bagay. Hal. lapis, bahay, damit, duhat, silya"]
+  ],
+  mc:[
+    ["Ano ang tawag sa uri ng pangngalan na nagsasabi kung ito ay panlalaki, pambabae, di-tiyak, o walang kasarian?", ["Anyo","Kasarian","Bigkas","Kailanan"], 1, "Ito ang Kasarian ng pangngalan."],
+    ["Ang pangngalang pantawag sa lalaki ay tinatawag na:", ["Pambabae","Panlalaki","Di-tiyak","Walang Kasarian"], 1, "Panlalaki ang tawag dito."],
+    ["Piliin ang halimbawa ng pangngalang Panlalaki.", ["reyna","lola","hari","ate"], 2, "'hari' ay pantawag sa lalaki."],
+    ["Piliin ang halimbawa ng pangngalang Pambabae.", ["lolo","Ginang","kuya","tatay"], 1, "'Ginang' ay pantawag sa babae."],
+    ["Ang pangngalang maaaring tumukoy sa alinman sa lalaki o babae ay tinatawag na:", ["Panlalaki","Pambabae","Di-tiyak","Walang Kasarian"], 2, "Di-tiyak — pareho itong maaari sa lalaki o babae."],
+    ["Piliin ang halimbawa ng pangngalang Di-tiyak.", ["hari","doktor","reyna","lolo"], 1, "'doktor' ay maaaring lalaki o babae."],
+    ["Ang pangngalang tumutukoy sa bagay at walang kaugnayan sa kasarian ay tinatawag na:", ["Panlalaki","Pambabae","Di-tiyak","Walang Kasarian"], 3, "Walang Kasarian — para sa mga bagay."],
+    ["Ang 'lolo' ay halimbawa ng pangngalang:", ["Pambabae","Panlalaki","Di-tiyak","Walang Kasarian"], 1, "'lolo' ay pantawag sa lalaki."],
+    ["Ang 'reyna' ay halimbawa ng pangngalang:", ["Panlalaki","Pambabae","Di-tiyak","Walang Kasarian"], 1, "'reyna' ay pantawag sa babae."],
+    ["Piliin ang halimbawa ng pangngalang Walang Kasarian.", ["hari","guro","bahay","reyna"], 2, "'bahay' ay tumutukoy sa bagay, walang kasarian."]
+  ],
+  tf:[
+    ["Ang 'hari' ay halimbawa ng pangngalang Panlalaki.", ["Tama (True)","Mali (False)"], 0, "Tama — pantawag ito sa lalaki."],
+    ["Ang 'guro' ay laging Panlalaki lamang.", ["Tama (True)","Mali (False)"], 1, "Mali — Di-tiyak ito dahil maaaring lalaki o babae ang guro."],
+    ["Ang 'lapis' ay halimbawa ng pangngalang Walang Kasarian.", ["Tama (True)","Mali (False)"], 0, "Tama — tumutukoy ito sa bagay."],
+    ["Ang 'tatay' ay halimbawa ng pangngalang Panlalaki.", ["Tama (True)","Mali (False)"], 0, "Tama — pantawag ito sa lalaki."],
+    ["Ang 'pulis' ay laging Pambabae lamang.", ["Tama (True)","Mali (False)"], 1, "Mali — Di-tiyak ito dahil maaaring lalaki o babae ang pulis."]
+  ]
+},
+{
+  id:7,
+  fil:"Aralin 7: Pangngalang Kongkreto at Di-kongkreto",
+  en:"Lesson 7: Concrete and Abstract Noun",
+  official:false,
+  intro:"Ang <strong>Pangngalang Kongkreto</strong> ay tumutukoy sa tao, bagay, o hayop na nakikita at nahahawakan. Ang <strong>Pangngalang Di-kongkreto (Basal)</strong> naman ay tumutukoy sa bagay na hindi nakikita o nahahawakan, tulad ng damdamin, kaisipan, o katangian.",
+  introEn:"A Concrete Noun refers to a person, thing, or animal that can be seen and touched. An Abstract Noun refers to something that cannot be seen or touched, such as feelings, ideas, or qualities.",
+  terms:[
+    ["Pangngalang Kongkreto","Concrete noun","Nakikita at nahahawakan. Hal. mesa, aso, bulaklak, bahay, guro"],
+    ["Pangngalang Di-kongkreto / Basal","Abstract noun","Hindi nakikita/nahahawakan (damdamin, kaisipan, katangian). Hal. pag-ibig, kagandahan, katapangan, kaligayahan, katotohanan"]
+  ],
+  mc:[
+    ["Ang pangngalang tumutukoy sa taong, bagay, o hayop na nakikita at nahahawakan ay tinatawag na:", ["Di-kongkreto","Kongkreto","Pantangi","Pambalana"], 1, "Kongkreto — nakikita at nahahawakan."],
+    ["Ang pangngalang tumutukoy sa bagay na hindi nakikita o nahahawakan, tulad ng damdamin o kaisipan, ay tinatawag na:", ["Kongkreto","Di-kongkreto/Basal","Pambalana","Isahan"], 1, "Di-kongkreto/Basal ang tawag dito."],
+    ["Piliin ang halimbawa ng pangngalang Kongkreto.", ["pag-ibig","kagandahan","mesa","katotohanan"], 2, "'mesa' ay nakikita at nahahawakan."],
+    ["Piliin ang halimbawa ng pangngalang Di-kongkreto.", ["aso","bulaklak","kaligayahan","guro"], 2, "'kaligayahan' ay isang damdamin — hindi nahahawakan."],
+    ["Ang salitang 'katapangan' ay halimbawa ng:", ["Pangngalang Kongkreto","Pangngalang Di-kongkreto","Pambalana","Pantangi"], 1, "Katangian ito, kaya Di-kongkreto."],
+    ["Ang salitang 'bahay' ay halimbawa ng:", ["Pangngalang Kongkreto","Pangngalang Di-kongkreto","Wala sa nabanggit","Pantangi lamang"], 0, "Nakikita at nahahawakan ang bahay."],
+    ["Alin sa mga sumusunod ang HINDI maaaring hawakan o makita?", ["libro","pagmamahal","bulaklak","mesa"], 1, "Damdamin ang pagmamahal — hindi ito nahahawakan."],
+    ["Ang mga salitang 'kaligayahan', 'kalungkutan', at 'pananampalataya' ay lahat halimbawa ng:", ["Pangngalang Kongkreto","Pangngalang Di-kongkreto","Pantangi","Panlalaki"], 1, "Lahat ito ay damdamin/paniniwala — Di-kongkreto."],
+    ["Bakit itinuturing na Kongkreto ang salitang 'aso'?", ["Dahil ito ay isang damdamin","Dahil ito ay nakikita at nahahawakan","Dahil ito ay kaisipan lamang","Dahil hindi ito totoo"], 1, "Nakikita at nahahawakan ang aso."],
+    ["Alin sa mga sumusunod ang LAHAT ay pangngalang Kongkreto?", ["puno, bulaklak, ibon","pag-asa, tapang, lungkot","kagandahan, pananampalataya, pag-ibig","katotohanan, katapatan, kabaitan"], 0, "Lahat nakikita at nahahawakan: puno, bulaklak, ibon."]
+  ],
+  tf:[
+    ["Ang pangngalang Kongkreto ay nakikita at nahahawakan.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang kahulugan ng Kongkreto."],
+    ["Ang 'kaligayahan' ay halimbawa ng pangngalang Kongkreto.", ["Tama (True)","Mali (False)"], 1, "Mali — Di-kongkreto ito, isang damdamin."],
+    ["Ang 'mesa' ay halimbawa ng pangngalang Di-kongkreto.", ["Tama (True)","Mali (False)"], 1, "Mali — Kongkreto ito, nakikita at nahahawakan."],
+    ["Ang mga damdamin at kaisipan ay halimbawa ng pangngalang Di-kongkreto.", ["Tama (True)","Mali (False)"], 0, "Tama — hindi ito nahahawakan o nakikita."],
+    ["Hindi mahahawakan o makikita ang pangngalang Di-kongkreto.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang katangian ng Di-kongkreto."]
+  ]
+},
+{
+  id:8,
+  fil:"Aralin 8: Mga Bantas",
+  en:"Lesson 8: Punctuation Marks",
+  official:false,
+  intro:"Ang mga <strong>bantas</strong> ay mga tanda na ginagamit sa pagsulat upang linawin ang kahulugan ng pangungusap. Kasama rito ang tuldok, kuwit, tandang pananong, tandang padamdam, panipi, tutuldok, tuldok-kuwit, at gitling.",
+  introEn:"Punctuation marks (bantas) are symbols used in writing to clarify the meaning of a sentence. These include the period, comma, question mark, exclamation point, quotation marks, colon, semicolon, and hyphen.",
+  terms:[
+    ["Tuldok ( . )","Period","Dulo ng pangungusap na pasalaysay"],
+    ["Kuwit ( , )","Comma","Pagitan ng mga salita sa isang listahan"],
+    ["Tandang Pananong ( ? )","Question mark","Dulo ng isang tanong"],
+    ["Tandang Padamdam ( ! )","Exclamation point","Nagpapahayag ng matinding damdamin"],
+    ["Panipi ( \" \" )","Quotation marks","Eksaktong sinabi ng isang tao"],
+    ["Tutuldok ( : )","Colon","Bago ang listahan o paliwanag"],
+    ["Tuldok-Kuwit ( ; )","Semicolon","Nag-uugnay ng dalawang magkaugnay na pangungusap"],
+    ["Gitling ( - )","Hyphen","Sa pagitan ng inuulit na salita o tambalang salita"]
+  ],
+  mc:[
+    ["Anong bantas ang inilalagay sa dulo ng pangungusap na pasalaysay?", ["Tandang Pananong","Tuldok","Tandang Padamdam","Kuwit"], 1, "Ang tuldok ang ginagamit sa dulo ng pangungusap na pasalaysay."],
+    ["Anong bantas ang ginagamit sa dulo ng isang tanong?", ["Tuldok","Tandang Pananong","Kuwit","Gitling"], 1, "Tandang Pananong ang ginagamit sa tanong."],
+    ["Anong bantas ang ginagamit upang ipahayag ang matinding damdamin?", ["Tandang Padamdam","Tuldok","Tutuldok","Panipi"], 0, "Tandang Padamdam ang para sa matinding damdamin."],
+    ["Anong bantas ang ginagamit sa pagitan ng mga salita sa isang listahan?", ["Tuldok","Kuwit","Tandang Pananong","Panipi"], 1, "Kuwit ang naghihiwalay ng mga salita sa listahan."],
+    ["Anong bantas ang ginagamit upang isulat ang eksaktong sinabi ng isang tao?", ["Panipi","Gitling","Tutuldok","Tuldok-Kuwit"], 0, "Panipi ang gamit sa eksaktong sinabi."],
+    ["Anong bantas ang karaniwang ginagamit bago maglahad ng listahan o paliwanag?", ["Kuwit","Tutuldok","Tandang Padamdam","Tuldok"], 1, "Tutuldok ang ginagamit bago ang listahan/paliwanag."],
+    ["Anong bantas ang ginagamit sa pagitan ng inuulit na salita, gaya sa 'bahay-bahay'?", ["Gitling","Kuwit","Tuldok","Panipi"], 0, "Gitling ang ginagamit sa inuulit na salita."],
+    ["Anong bantas ang ginagamit upang idugtong ang dalawang magkaugnay na pangungusap?", ["Tuldok-Kuwit","Tandang Pananong","Gitling","Panipi"], 0, "Tuldok-Kuwit ang nag-uugnay ng dalawang pangungusap."],
+    ["Alin ang WASTO ang gamit ng bantas para sa 'Kumusta ka'?", ["Kumusta ka.","Kumusta ka?","Kumusta ka,","Kumusta ka;"], 1, "Ito ay tanong, kaya kailangan ng Tandang Pananong."],
+    ["Alin ang WASTO ang gamit ng bantas para sa 'Bumili ako ng mansanas saging at ubas'?", ["Bumili ako ng mansanas, saging, at ubas.","Bumili ako ng mansanas; saging; at ubas.","Bumili ako ng mansanas: saging: at ubas.","Bumili ako ng mansanas-saging-at ubas."], 0, "Gamit ang kuwit sa paghihiwalay ng mga salita sa listahan."]
+  ],
+  tf:[
+    ["Ang tuldok ay ginagamit sa dulo ng pangungusap na pasalaysay.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang gamit ng tuldok."],
+    ["Ang tandang padamdam ay ginagamit sa dulo ng isang tanong.", ["Tama (True)","Mali (False)"], 1, "Mali — ang Tandang Pananong ang ginagamit sa tanong."],
+    ["Ang kuwit ay ginagamit upang paghiwalayin ang mga salita sa isang listahan.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang gamit ng kuwit."],
+    ["Ang panipi ay ginagamit upang isulat ang eksaktong sinabi ng isang tao.", ["Tama (True)","Mali (False)"], 0, "Tama — ito ang gamit ng panipi."],
+    ["Ang gitling ay ginagamit sa dulo ng pangungusap na may matinding damdamin.", ["Tama (True)","Mali (False)"], 1, "Mali — ang Tandang Padamdam ang ginagamit doon, hindi ang gitling."]
+  ]
+}
+];
+
+/* =========================================================
+   RENDER: REVIEWER TAB
+   ========================================================= */
+function badgeHtml(official){
+  if(official===true) return '<span class="badge official">📘 Mula sa Modyul ng Paaralan (From school module)</span>';
+  if(official==="mixed") return '<span class="badge standard">📝 Bahagi: Karaniwang Nilalaman (Some parts: standard reference content)</span>';
+  return '<span class="badge standard">📝 Karaniwang Nilalaman — Hindi Opisyal na Sagutang-Papel ng Paaralan (Standard content — not from an official school quiz)</span>';
+}
+
+function renderReviewer(){
+  let toc = '<ul class="toc">';
+  LESSONS.forEach(l=>{ toc += `<li><a href="#rev-${l.id}">${l.fil.split(':')[0]}</a></li>`; });
+  toc += '</ul>';
+
+  let html = `<h2>📖 Reviewer</h2><p class="en">Study guide for all 8 lessons</p>` + toc;
+
+  LESSONS.forEach(l=>{
+    html += `<section class="lesson" id="rev-${l.id}">
+      <div class="lesson-head">
+        <h2>${l.fil}</h2>
+        <span class="en">${l.en}</span>
+        ${badgeHtml(l.official)}
+      </div>
+      <div class="lesson-body">
+        <p>${l.intro}</p>
+        <p class="small-en">${l.introEn}</p>`;
+
+    if(l.terms){
+      html += `<table class="terms"><tr><th>Filipino</th><th>English</th><th>Paliwanag / Halimbawa</th></tr>`;
+      l.terms.forEach(t=>{ html += `<tr><td>${t[0]}</td><td>${t[1]}</td><td>${t[2]}</td></tr>`; });
+      html += `</table>`;
+    }
+    if(l.examples){
+      html += `<div class="examples"><strong>Halimbawa:</strong> ${l.examples}</div>`;
+    }
+    if(l.subsections){
+      l.subsections.forEach(sub=>{
+        html += `<h4>${sub.label} ${badgeHtml(sub.official)}</h4>
+          <table class="terms"><tr><th>Filipino</th><th>English</th><th>Paliwanag / Halimbawa</th></tr>`;
+        sub.terms.forEach(t=>{ html += `<tr><td>${t[0]}</td><td>${t[1]}</td><td>${t[2]}</td></tr>`; });
+        html += `</table>`;
+      });
+    }
+    html += `</div></section>`;
+  });
+
+  document.getElementById('reviewer-content').innerHTML = html;
+}
+
+/* =========================================================
+   RENDER: QUIZ TAB
+   ========================================================= */
+function renderQuestionBlock(items, lessonId, typePrefix){
+  let html = '';
+  items.forEach((item,idx)=>{
+    const [q, choices, correct, explain] = item;
+    html += `<div class="question" data-lesson="${lessonId}" data-qindex="${idx}" data-correct="${correct}">
+      <div class="qtext">${idx+1}. ${q}</div>`;
+    choices.forEach((c,ci)=>{
+      html += `<label class="choice" data-ci="${ci}">
+        <input type="radio" name="${typePrefix}-${lessonId}-${idx}" value="${ci}">
+        <span>${c}</span>
+      </label>`;
+    });
+    html += `<div class="explain">💡 ${explain}</div></div>`;
+  });
+  return html;
+}
+
+function renderQuiz(){
+  let html = '';
+  LESSONS.forEach(l=>{
+    html += `<div class="lesson-quiz-title">
+        <h3>${l.fil}</h3>
+        <span class="en">${l.en}</span>
+      </div>
+      <div class="lesson-quiz-body">
+      <div class="qgroup-label">A. Piliin ang Tamang Sagot <span class="small-en">(Multiple Choice)</span></div>`;
+    html += renderQuestionBlock(l.mc, l.id, 'mc');
+    html += `<div class="qgroup-label">B. Tama o Mali <span class="small-en">(True or False)</span></div>`;
+    html += renderQuestionBlock(l.tf, l.id, 'tf');
+    html += `</div>`;
+  });
+  document.getElementById('quiz-content').innerHTML = html;
+}
+
+/* =========================================================
+   TABS
+   ========================================================= */
+function showTab(name){
+  document.getElementById('tab-reviewer').classList.toggle('active', name==='reviewer');
+  document.getElementById('tab-quiz').classList.toggle('active', name==='quiz');
+  document.getElementById('tab-btn-reviewer').classList.toggle('active', name==='reviewer');
+  document.getElementById('tab-btn-quiz').classList.toggle('active', name==='quiz');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* =========================================================
+   GRADING
+   ========================================================= */
+function checkAnswers(){
+  let total = 0, correctCount = 0;
+  const perLesson = {};
+
+  LESSONS.forEach(l=>{ perLesson[l.id] = {name:l.fil.split(':')[0], correct:0, total:l.mc.length + l.tf.length}; });
+
+  document.querySelectorAll('.question[data-correct]').forEach(qDiv=>{
+    const lessonId = qDiv.getAttribute('data-lesson');
+    const correctIdx = parseInt(qDiv.getAttribute('data-correct'),10);
+    const choices = qDiv.querySelectorAll('.choice');
+    const selected = qDiv.querySelector('input[type=radio]:checked');
+    const selectedIdx = selected ? parseInt(selected.value,10) : -1;
+
+    total++;
+    if(selectedIdx === correctIdx){
+      correctCount++;
+      perLesson[lessonId].correct++;
+    }
+
+    choices.forEach(ch=>{
+      const ci = parseInt(ch.getAttribute('data-ci'),10);
+      ch.classList.remove('correct','incorrect');
+      const oldTag = ch.querySelector('.fb-tag'); if(oldTag) oldTag.remove();
+      if(ci === correctIdx){
+        ch.classList.add('correct');
+        const tag = document.createElement('span'); tag.className='fb-tag correct'; tag.textContent='✔ Tamang Sagot';
+        ch.appendChild(tag);
+      } else if(ci === selectedIdx){
+        ch.classList.add('incorrect');
+        const tag = document.createElement('span'); tag.className='fb-tag incorrect'; tag.textContent='✘ Iyong Sagot';
+        ch.appendChild(tag);
+      }
+    });
+    const explain = qDiv.querySelector('.explain');
+    if(explain) explain.style.display = 'block';
+  });
+
+  const name = document.getElementById('studentName').value.trim();
+  const greetName = name ? name : 'Mag-aaral';
+  const pct = total ? Math.round((correctCount/total)*100) : 0;
+
+  let rows = '';
+  LESSONS.forEach(l=>{
+    const pl = perLesson[l.id];
+    rows += `<tr><td>${pl.name}</td><td>${pl.correct} / ${pl.total}</td></tr>`;
+  });
+
+  const panel = document.getElementById('score-panel');
+  panel.innerHTML = `
+    <h3>Magaling, ${greetName}! 🎉</h3>
+    <div class="big">${correctCount} / ${total}</div>
+    <p style="margin-top:6px;color:#EDEAD9;">Kabuuang Marka: ${pct}% <span class="small-en" style="color:#CFE3D6;">(Overall score)</span></p>
+    <table class="score-table"><tr><th>Aralin</th><th>Marka</th></tr>${rows}</table>
+  `;
+  panel.classList.add('show');
+  panel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function resetQuiz(){
+  document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+  document.querySelectorAll('.explain').forEach(e=>e.style.display='none');
+  document.querySelectorAll('.choice').forEach(c=>{
+    c.classList.remove('correct','incorrect');
+    const tag=c.querySelector('.fb-tag'); if(tag) tag.remove();
+  });
+  const panel = document.getElementById('score-panel');
+  panel.classList.remove('show');
+  panel.innerHTML='';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+renderReviewer();
+renderQuiz();
+</script>
+</body>
+</html>
